@@ -13,18 +13,18 @@ using JetBrains.Annotations;
 
 public class CharacterInteraction : MonoBehaviour
 {
-    [Header("������� �������� � ��� ������")]
+    [Header("Объекты камеры и персонажа")]
     public Transform MainCharacter;
     public GameObject mainChar;
     public GameObject mainCam;
     public Transform Camera;
-    [Header("������")]
+    [Header("Координаты персонажа")]
     public Transform NPC;
-    [Header("�����-�����")]
+    [Header("Координаты двери выхода")]
     public Transform ExitDoor;
-    [Header("���� ��� ������� ��. ���������")]
+    [Header("Координаты компьютера")]
     public Transform mainPC;
-    [Header("�������� ����������")]
+    [Header("Интерфейс")]
     public GameObject Point;
     public GameObject Ui;
     public GameObject FirstOpenScreen;
@@ -34,7 +34,7 @@ public class CharacterInteraction : MonoBehaviour
     public TMP_InputField inputText;
     public TMP_Text currentExpUiTxT;
     public TMP_Text currentTaskUiTxT;
-    [Header("������� ��� ����������")]
+    [Header("Скрипт управления камерой")]
     public CameraController script1;
 
     private DataManipulator db;
@@ -47,7 +47,6 @@ public class CharacterInteraction : MonoBehaviour
     int iterator = 0;
     private float x, y, z, xRot, yRot, zRot;
 
-    // ���������� ��� ������� �����
     void Start()
     {
         db = new DataManipulator();
@@ -62,13 +61,11 @@ public class CharacterInteraction : MonoBehaviour
         FirstOpenScreen.SetActive(false);    
     }
 
-    // ���������� ������ ����
     void Update()
     {
         
         db = new DataManipulator();
         
-        //���������� �������� ��������� ��. ���������
         x = MainCharacter.transform.position.x;
         y = MainCharacter.transform.position.y;
         z = MainCharacter.transform.position.z;
@@ -112,7 +109,6 @@ public class CharacterInteraction : MonoBehaviour
     {
         UiVisible = true;
 
-        //�������� ������� � ��������
         if (Vector3.Distance(MainCharacter.transform.position, NPC.transform.position) <= 500)
         {
             if (script1.enabled == false)
@@ -121,8 +117,6 @@ public class CharacterInteraction : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                //Debug.Log("�������� ������");
-
                 if(iterator >= 2)
                     taskText1.text = " Задания кончились. Пройдите к выходу.";          
                 else taskText1.text = TaskText();
@@ -131,8 +125,7 @@ public class CharacterInteraction : MonoBehaviour
                 mainCam.GetComponent<Animator>().enabled = false;
                 
                 Ui.SetActive(UiVisible);
-
-                //���������� ��������, ����� ����� �� ���������
+                
                 foreach (MonoBehaviour mono in this.GetComponents<MonoBehaviour>())
                     mono.enabled = false;
                 script1.enabled = false;
@@ -140,7 +133,7 @@ public class CharacterInteraction : MonoBehaviour
                 this.enabled = true;
             }             
         }
-        //�������� ������ � ��
+        
         else if (Vector3.Distance(MainCharacter.transform.position, mainPC.transform.position) <= 300)
         {          
             Point.SetActive(UiVisible);
@@ -152,7 +145,6 @@ public class CharacterInteraction : MonoBehaviour
                 mainChar.GetComponent<Animator>().enabled = false;
                 mainCam.GetComponent<Animator>().enabled = false;
 
-                //���������� ��������, ����� ����� �� ���������
                 foreach (MonoBehaviour mono in this.GetComponents<MonoBehaviour>())
                     mono.enabled = false;
                 script1.enabled = false;
@@ -160,8 +152,6 @@ public class CharacterInteraction : MonoBehaviour
                 this.enabled = true;
                 
                 inputText.interactable = true;
-
-                //����������� ������ � �� � ��������� �� ������
 
                 MainCharacter.transform.position = new Vector3(-127, 265, 138);
                 MainCharacter.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
@@ -181,13 +171,11 @@ public class CharacterInteraction : MonoBehaviour
 
             Point.SetActive(UiVisible);
 
-            //Debug.Log("�������� ������");
             Ui.SetActive(UiVisible);
 
             mainChar.GetComponent<Animator>().enabled = true;
             mainCam.GetComponent<Animator>().enabled = true;
 
-            //��������� ��������
             foreach (MonoBehaviour mono in this.GetComponents<MonoBehaviour>())
                 mono.enabled = true;
             script1.enabled = true;
@@ -206,7 +194,6 @@ public class CharacterInteraction : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                //�������� ������� ����� �������� ����
                 SceneManager.LoadScene(0);
             }
         }
@@ -214,7 +201,6 @@ public class CharacterInteraction : MonoBehaviour
 
     public void AcceptTask()
     {
-        //������� ������� �� ����������
 
         taskTextOnPC.text = taskText1.text;   
         
@@ -237,13 +223,11 @@ public class CharacterInteraction : MonoBehaviour
             inputText.text = "";
             output.text = " ";
 
-            //Debug.Log("������� ������� � ������");
             Ui.SetActive(UiVisible);
 
             mainChar.GetComponent<Animator>().enabled = true;
             mainCam.GetComponent<Animator>().enabled = true;
 
-            //��������� ��������
             foreach (MonoBehaviour mono in this.GetComponents<MonoBehaviour>())
                 mono.enabled = true;
             script1.enabled = true;
@@ -276,7 +260,6 @@ public class CharacterInteraction : MonoBehaviour
             mainChar.GetComponent<Animator>().enabled = true;
             mainCam.GetComponent<Animator>().enabled = true;
 
-            //��������� ��������
             foreach (MonoBehaviour mono in this.GetComponents<MonoBehaviour>())
                 mono.enabled = true;
             script1.enabled = true;
